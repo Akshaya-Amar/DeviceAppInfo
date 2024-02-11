@@ -1,28 +1,40 @@
 package com.example.appinfo.data.model;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.BindingAdapter;
 
 import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class DeviceAppInfo implements Parcelable {
 
     private final String name;
     private final String packageName;
+    private final int versionCode;
+    private final String versionName;
+    private final int targetSDKVersion;
+    private final String path;
+    private final long firstInstallTime;
+    private final long lastUpdateTime;
     private final byte[] iconBitmapBytes;
 
-    public DeviceAppInfo(String name, String packageName, Drawable icon) {
+    public DeviceAppInfo(String name, String packageName, int versionCode, String versionName, int targetSDKVersion, String path, long firstInstallTime, long lastUpdateTime, Drawable icon) {
         this.name = name;
         this.packageName = packageName;
+        this.versionCode = versionCode;
+        this.versionName = versionName;
+        this.targetSDKVersion = targetSDKVersion;
+        this.path = path;
+        this.firstInstallTime = firstInstallTime;
+        this.lastUpdateTime = lastUpdateTime;
         this.iconBitmapBytes = convertBitmapToByteArray(getBitmapFromDrawable(icon)); // Storing Bitmap as byte[]: storing icon bitmap as a byte[], which is more suitable for serialization and deserialization.
     }
 
@@ -32,6 +44,38 @@ public class DeviceAppInfo implements Parcelable {
 
     public String getPackageName() {
         return packageName;
+    }
+
+    public int getVersionCode() {
+        return versionCode;
+    }
+
+    public String getVersionName() {
+        return versionName;
+    }
+
+    public int getTargetSDKVersion() {
+        return targetSDKVersion;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public long getFirstInstallTime() {
+        return firstInstallTime;
+    }
+
+    public String getFirstInstallTimeInDateFormat() {
+        return getDateFormat(getFirstInstallTime());
+    }
+
+    public long getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public String getLastUpdateTimeInDateFormat() {
+        return getDateFormat(getLastUpdateTime());
     }
 
     public byte[] getIconBitmapBytes() {
@@ -75,6 +119,12 @@ public class DeviceAppInfo implements Parcelable {
     protected DeviceAppInfo(Parcel in) {
         name = in.readString();
         packageName = in.readString();
+        versionCode = in.readInt();
+        versionName = in.readString();
+        targetSDKVersion = in.readInt();
+        path = in.readString();
+        firstInstallTime = in.readLong();
+        lastUpdateTime = in.readLong();
         iconBitmapBytes = in.createByteArray(); // Read byte[] from Parcel
     }
 
@@ -82,6 +132,12 @@ public class DeviceAppInfo implements Parcelable {
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(packageName);
+        dest.writeInt(versionCode);
+        dest.writeString(versionName);
+        dest.writeInt(targetSDKVersion);
+        dest.writeString(path);
+        dest.writeLong(firstInstallTime);
+        dest.writeLong(lastUpdateTime);
         dest.writeByteArray(iconBitmapBytes); // Write byte[] to Parcel
     }
 
@@ -90,9 +146,9 @@ public class DeviceAppInfo implements Parcelable {
         return 0;
     }
 
-    @BindingAdapter("android:bitmap_drawable")
-    public static void setBitmapDrawable(ImageView imageView, byte[] iconBitmapBytes) {
-        Bitmap bitmapIcon = BitmapFactory.decodeByteArray(iconBitmapBytes, 0, iconBitmapBytes.length); // Convert byte[] back to Bitmap
-        imageView.setImageBitmap(bitmapIcon);
+    private String getDateFormat(long time) {
+        Date date = new Date(time);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss", Locale.getDefault());
+        return dateFormat.format(date);
     }
 }
