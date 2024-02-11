@@ -36,14 +36,13 @@ public class DeviceAppViewModel extends AndroidViewModel {
     }
 
     private void getInstalledApps() {
+
         isLoading.setValue(true);
+
         DeviceAppRepository repository = new DeviceAppRepository(application.getApplicationContext());
-        repository.getInstalledApps(new DeviceAppRepository.OnTaskCompleteListener() {
-            @Override
-            public void onTaskCompleted(List<DeviceAppInfo> deviceAppsInfo) {
-                deviceAppInfoList.postValue(deviceAppsInfo);
-                isLoading.postValue(false);
-            }
+        repository.getInstalledApps(deviceAppsInfo -> {
+            deviceAppInfoList.postValue(deviceAppsInfo);
+            isLoading.postValue(false);
         });
     }
 }

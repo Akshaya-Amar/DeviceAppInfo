@@ -37,12 +37,7 @@ public class DeviceAppActivity extends AppCompatActivity {
         DeviceAppAdapter adapter = new DeviceAppAdapter(this);
         recyclerView.setAdapter(adapter);
 
-        viewModel.getDeviceAppInfoList().observe(this, new Observer<List<DeviceAppInfo>>() {
-            @Override
-            public void onChanged(List<DeviceAppInfo> deviceAppInfoList) {
-                adapter.setDeviceAppInfoList(deviceAppInfoList);
-            }
-        });
+        viewModel.getDeviceAppInfoList().observe(this, adapter::setDeviceAppInfoList);
 
         adapter.setOnItemClickListener(deviceAppInfo -> {
             Intent intent = new Intent(DeviceAppActivity.this, AppInfoDetail.class);
