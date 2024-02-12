@@ -1,29 +1,36 @@
 package com.example.appinfo.data.repository;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.PermissionInfo;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 import com.example.appinfo.data.model.DeviceAppInfo;
+import com.example.appinfo.data.model.DeviceAppProfile;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class DeviceAppRepository {
 
-    private final Context context;
+    private static DeviceAppRepository deviceAppRepository;
+    //    private Context context;
+    private final Application application;
 
-    public DeviceAppRepository(Context context) {
-        this.context = context;
+    private DeviceAppRepository(Application application) {
+        this.application = application;
+    }
+
+    public static DeviceAppRepository getInstance(Application application) {
+        if (deviceAppRepository == null) {
+            deviceAppRepository = new DeviceAppRepository(application);
+        }
+
+        return deviceAppRepository;
     }
 
     public interface OnTaskCompleteListener {
@@ -46,8 +53,8 @@ public class DeviceAppRepository {
         @Override
         public void run() {
 
+            Context context = application.getApplicationContext();
             PackageManager packageManager = context.getPackageManager();
-//            List<ApplicationInfo> applicationInfoList = packageManager.getInstalledApplications(0);
             List<PackageInfo> packageInfoList = packageManager.getInstalledPackages(0);
 
             List<DeviceAppInfo> installedAppInfoList = new ArrayList<>();
@@ -76,5 +83,36 @@ public class DeviceAppRepository {
                 listener.onTaskCompleted(installedAppInfoList);
             }
         }
+    }
+
+    private static final String[] titles = {
+            "Package Name",
+            "Version Name",
+            "Version Code",
+            "Path",
+            "First Install Time",
+            "Last Update Time",
+            "Target SDK Version"
+    };
+
+    public List<DeviceAppProfile> getDeviceAppInfo(DeviceAppInfo deviceAppInfo) {
+
+        String[] descriptions = {
+                deviceAppInfo.getPackageName(),
+                deviceAppInfo.getVersionName(),
+                String.valueOf(deviceAppInfo.getVersionCode()),
+                deviceAppInfo.getPath(),
+                deviceAppInfo.getFirstInstallTimeInDateFormat(),
+                deviceAppInfo.getLastUpdateTimeInDateFormat(),
+                String.valueOf(deviceAppInfo.getTargetSDKVersion())
+        };
+
+        List<DeviceAppProfile> appProfileList = new ArrayList<>();
+        for (int index = 0; index < titles.length; ++index) {
+            DeviceAppProfile appProfile = new DeviceAppProfile(titles[index], descriptions[index]);
+            appProfileList.add(appProfile);
+        }
+
+        return appProfileList;
     }
 }

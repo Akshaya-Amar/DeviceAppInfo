@@ -17,11 +17,10 @@ import java.util.List;
 public class DeviceAppDetailAdapter extends RecyclerView.Adapter<DeviceAppDetailAdapter.ViewHolder> {
 
     private final Context context;
-    private final List<DeviceAppProfile> appProfileList;
+    private List<DeviceAppProfile> appProfileList;
 
-    public DeviceAppDetailAdapter(Context context, List<DeviceAppProfile> appProfileList) {
+    public DeviceAppDetailAdapter(Context context) {
         this.context = context;
-        this.appProfileList = appProfileList;
     }
 
     @NonNull
@@ -41,7 +40,11 @@ public class DeviceAppDetailAdapter extends RecyclerView.Adapter<DeviceAppDetail
 
     @Override
     public int getItemCount() {
-        return appProfileList.size();
+        return appProfileList != null ? appProfileList.size() : 0;
+    }
+
+    public void setAppProfileList(List<DeviceAppProfile> appProfileList) {
+        this.appProfileList = appProfileList;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -53,5 +56,4 @@ public class DeviceAppDetailAdapter extends RecyclerView.Adapter<DeviceAppDetail
             this.binding = binding;
         }
     }
-
 }

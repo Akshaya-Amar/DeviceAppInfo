@@ -5,18 +5,14 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appinfo.R;
-import com.example.appinfo.data.model.DeviceAppInfo;
 import com.example.appinfo.data.viewmodel.DeviceAppViewModel;
 import com.example.appinfo.databinding.ActivityDeviceAppBinding;
 import com.example.appinfo.ui.adapter.DeviceAppAdapter;
-
-import java.util.List;
 
 public class DeviceAppActivity extends AppCompatActivity {
 

@@ -8,6 +8,10 @@
         <variable
             name="deviceAppInfo"
             type="com.example.appinfo.data.model.DeviceAppInfo" />
+
+        <variable
+            name="appInfoDetailViewModel"
+            type="com.example.appinfo.data.viewmodel.AppInfoDetailViewModel" />
     </data>
 
     <RelativeLayout
@@ -37,8 +41,8 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_centerHorizontal="true"
-                    android:bitmap_drawable="@{deviceAppInfo.iconBitmapBytes}"
                     android:elevation="5dp"
+                    app:bitmap_drawable="@{deviceAppInfo.iconBitmapBytes}"
                     tools:src="@mipmap/ic_launcher" />
 
                 <LinearLayout
@@ -94,6 +98,54 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/app_info_linear_layout" />
+            android:layout_below="@+id/app_info_linear_layout"
+            android:layout_marginBottom="60dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/round_corner_background">
+
+            <ImageView
+                android:id="@+id/play_store_button"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:onClick="@{() -> appInfoDetailViewModel.onPlayStoreButtonClick()}"
+                android:src="@drawable/baseline_shop" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:background="@color/white" />
+
+            <ImageView
+                android:id="@+id/app_settings_button"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:onClick="@{() -> appInfoDetailViewModel.onSettingButtonClick()}"
+                android:src="@drawable/baseline_settings" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:background="@color/white" />
+
+            <ImageView
+                android:id="@+id/launch_app_button"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:onClick="@{() -> appInfoDetailViewModel.onAppLaunchButtonClick()}"
+                android:src="@drawable/baseline_launch" />
+        </LinearLayout>
     </RelativeLayout>
 </layout>

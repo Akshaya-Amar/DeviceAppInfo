@@ -22,8 +22,7 @@ public class DeviceAppViewModel extends AndroidViewModel {
         super(application);
         this.application = application;
         deviceAppInfoList = new MutableLiveData<>();
-        isLoading = new MutableLiveData<>();
-        isLoading.setValue(false);
+        isLoading = new MutableLiveData<>(false);
         getInstalledApps();
     }
 
@@ -39,7 +38,7 @@ public class DeviceAppViewModel extends AndroidViewModel {
 
         isLoading.setValue(true);
 
-        DeviceAppRepository repository = new DeviceAppRepository(application.getApplicationContext());
+        DeviceAppRepository repository = DeviceAppRepository.getInstance(application);
         repository.getInstalledApps(deviceAppsInfo -> {
             deviceAppInfoList.postValue(deviceAppsInfo);
             isLoading.postValue(false);

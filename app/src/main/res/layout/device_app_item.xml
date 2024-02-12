@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="deviceAppInfo"
             type="com.example.appinfo.data.model.DeviceAppInfo" />
@@ -37,7 +38,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_margin="5dp"
-                    android:bitmap_drawable="@{deviceAppInfo.iconBitmapBytes}"
+                    app:bitmap_drawable="@{deviceAppInfo.iconBitmapBytes}"
                     tools:src="@mipmap/ic_launcher" />
 
                 <LinearLayout

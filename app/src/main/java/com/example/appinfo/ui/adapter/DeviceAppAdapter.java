@@ -67,11 +67,11 @@ public class DeviceAppAdapter extends RecyclerView.Adapter<DeviceAppAdapter.View
         }
     }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
-    }
-
     public interface OnItemClickListener {
         void onItemClick(DeviceAppInfo deviceAppInfo);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 }
