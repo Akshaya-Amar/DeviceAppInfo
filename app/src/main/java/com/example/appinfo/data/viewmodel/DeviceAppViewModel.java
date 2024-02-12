@@ -1,6 +1,7 @@
 package com.example.appinfo.data.viewmodel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -17,6 +18,7 @@ public class DeviceAppViewModel extends AndroidViewModel {
     private final Application application;
     private final MutableLiveData<List<DeviceAppInfo>> deviceAppInfoList;
     private final MutableLiveData<Boolean> isLoading;
+    private static final String TAG = "DeviceAppViewModel";
 
     public DeviceAppViewModel(@NonNull Application application) {
         super(application);
@@ -39,9 +41,18 @@ public class DeviceAppViewModel extends AndroidViewModel {
         isLoading.setValue(true);
 
         DeviceAppRepository repository = DeviceAppRepository.getInstance(application);
-        repository.getInstalledApps(deviceAppsInfo -> {
-            deviceAppInfoList.postValue(deviceAppsInfo);
-            isLoading.postValue(false);
+        repository.getInstalledApps(new DeviceAppRepository.OnTaskCompleteListener() {
+            @Override
+            public void onTaskCompleted(List<DeviceAppInfo> deviceAppsInfo) {
+                deviceAppInfoList.postValue(deviceAppsInfo);
+                isLoading.postValue(false);
+            }
+
+            @Override
+            public void onTaskFailed(String errorMessage) {
+                Log.i(TAG, "onTaskFailed: " + errorMessage);
+                isLoading.postValue(false);
+            }
         });
     }
 }

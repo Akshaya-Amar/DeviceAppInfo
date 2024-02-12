@@ -18,7 +18,6 @@ import java.util.concurrent.Executors;
 public class DeviceAppRepository {
 
     private static DeviceAppRepository deviceAppRepository;
-    //    private Context context;
     private final Application application;
 
     private DeviceAppRepository(Application application) {
@@ -35,6 +34,8 @@ public class DeviceAppRepository {
 
     public interface OnTaskCompleteListener {
         void onTaskCompleted(List<DeviceAppInfo> deviceAppsInfo);
+
+        void onTaskFailed(String errorMessage);
     }
 
     public void getInstalledApps(OnTaskCompleteListener listener) {
@@ -52,7 +53,6 @@ public class DeviceAppRepository {
 
         @Override
         public void run() {
-
             Context context = application.getApplicationContext();
             PackageManager packageManager = context.getPackageManager();
             List<PackageInfo> packageInfoList = packageManager.getInstalledPackages(0);
@@ -79,8 +79,10 @@ public class DeviceAppRepository {
                 }
             }
 
-            if (listener != null) {
+            if (!installedAppInfoList.isEmpty()) {
                 listener.onTaskCompleted(installedAppInfoList);
+            } else {
+                listener.onTaskFailed("Unable to retrieve apps from device");
             }
         }
     }

@@ -4,26 +4,19 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appinfo.R;
 import com.example.appinfo.data.model.DeviceAppInfo;
-import com.example.appinfo.data.model.DeviceAppProfile;
 import com.example.appinfo.data.viewmodel.AppInfoDetailViewModel;
 import com.example.appinfo.databinding.ActivityAppInfoDetailBinding;
 import com.example.appinfo.ui.adapter.DeviceAppDetailAdapter;
-import com.example.appinfo.util.ButtonType;
 import com.google.android.material.snackbar.Snackbar;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class AppInfoDetail extends AppCompatActivity {
 
@@ -50,30 +43,24 @@ public class AppInfoDetail extends AppCompatActivity {
 
         DeviceAppDetailAdapter adapter = new DeviceAppDetailAdapter(this);
         recyclerView.setAdapter(adapter);
-        viewModel.getDeviceAppProfile().observe(this, new Observer<List<DeviceAppProfile>>() {
-            @Override
-            public void onChanged(List<DeviceAppProfile> deviceAppProfiles) {
-                adapter.setAppProfileList(deviceAppProfiles);
-            }
-        });
+
+        viewModel.getDeviceAppProfile().observe(this, adapter::setAppProfileList);
 
         String packageName = deviceAppInfo.getPackageName();
 
-        viewModel.getButtonType().observe(this, new Observer<ButtonType>() {
-            @Override
-            public void onChanged(ButtonType buttonType) {
-                switch (buttonType) {
-                    case PLAY_STORE:
-                        openAppInPlayStore(packageName);
-                        break;
+        viewModel.getButtonType().observe(this, buttonType -> {
 
-                    case SETTINGS:
-                        openAppSettings(packageName);
-                        break;
+            switch (buttonType) {
+                case PLAY_STORE:
+                    openAppInPlayStore(packageName);
+                    break;
 
-                    case LAUNCH_APP:
-                        launchApp(packageName, binding);
-                }
+                case SETTINGS:
+                    openAppSettings(packageName);
+                    break;
+
+                case LAUNCH_APP:
+                    launchApp(packageName, binding);
             }
         });
     }

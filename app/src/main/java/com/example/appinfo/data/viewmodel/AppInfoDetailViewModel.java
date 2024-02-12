@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.appinfo.data.model.DeviceAppInfo;
 import com.example.appinfo.data.model.DeviceAppProfile;
@@ -32,13 +31,13 @@ public class AppInfoDetailViewModel extends AndroidViewModel {
         return deviceAppProfile;
     }
 
+    public LiveData<ButtonType> getButtonType() {
+        return buttonType;
+    }
+
     public void getDeviceAppProfileList(DeviceAppInfo deviceAppInfo) {
         List<DeviceAppProfile> deviceAppProfiles = DeviceAppRepository.getInstance(application).getDeviceAppInfo(deviceAppInfo);
         deviceAppProfile.setValue(deviceAppProfiles);
-    }
-
-    public LiveData<ButtonType> getButtonType() {
-        return buttonType;
     }
 
     public void onPlayStoreButtonClick() {
