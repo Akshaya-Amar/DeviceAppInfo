@@ -36,7 +36,7 @@ public class DeviceAppActivity extends AppCompatActivity {
         viewModel.getDeviceAppInfoList().observe(this, adapter::setDeviceAppInfoList);
 
         adapter.setOnItemClickListener(deviceAppInfo -> {
-            Intent intent = new Intent(DeviceAppActivity.this, AppInfoDetail.class);
+            Intent intent = new Intent(DeviceAppActivity.this, AppInfoDetailActivity.class);
             intent.putExtra("appInfo", deviceAppInfo);
             startActivity(intent);
         });

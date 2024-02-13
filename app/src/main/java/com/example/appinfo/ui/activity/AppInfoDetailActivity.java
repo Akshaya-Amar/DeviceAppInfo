@@ -18,7 +18,7 @@ import com.example.appinfo.databinding.ActivityAppInfoDetailBinding;
 import com.example.appinfo.ui.adapter.DeviceAppDetailAdapter;
 import com.google.android.material.snackbar.Snackbar;
 
-public class AppInfoDetail extends AppCompatActivity {
+public class AppInfoDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,16 +33,14 @@ public class AppInfoDetail extends AppCompatActivity {
         binding.setDeviceAppInfo(deviceAppInfo);
         binding.setLifecycleOwner(this);
 
-        if (savedInstanceState == null) {
-            viewModel.getDeviceAppProfileList(deviceAppInfo);
-        }
-
         RecyclerView recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
         DeviceAppDetailAdapter adapter = new DeviceAppDetailAdapter(this);
         recyclerView.setAdapter(adapter);
+
+        viewModel.getDeviceAppProfileList(deviceAppInfo);
 
         viewModel.getDeviceAppProfile().observe(this, adapter::setAppProfileList);
 

@@ -34,7 +34,6 @@ public class DeviceAppRepository {
 
     public interface OnTaskCompleteListener {
         void onTaskCompleted(List<DeviceAppInfo> deviceAppsInfo);
-
         void onTaskFailed(String errorMessage);
     }
 
@@ -57,7 +56,7 @@ public class DeviceAppRepository {
             PackageManager packageManager = context.getPackageManager();
             List<PackageInfo> packageInfoList = packageManager.getInstalledPackages(0);
 
-            List<DeviceAppInfo> installedAppInfoList = new ArrayList<>();
+            List<DeviceAppInfo> deviceAppInfoList = new ArrayList<>();
             for (PackageInfo packageInfo : packageInfoList) {
 
                 ApplicationInfo applicationInfo = packageInfo.applicationInfo;
@@ -75,14 +74,14 @@ public class DeviceAppRepository {
                     Drawable appIcon = applicationInfo.loadIcon(packageManager);
 
                     DeviceAppInfo deviceAppInfo = new DeviceAppInfo(appName, packageName, versionCode, versionName, targetSDKVersion, path, firstInstallTime, lastUpdateTime, appIcon);
-                    installedAppInfoList.add(deviceAppInfo);
+                    deviceAppInfoList.add(deviceAppInfo);
                 }
             }
 
-            if (!installedAppInfoList.isEmpty()) {
-                listener.onTaskCompleted(installedAppInfoList);
+            if (!deviceAppInfoList.isEmpty()) {
+                listener.onTaskCompleted(deviceAppInfoList);
             } else {
-                listener.onTaskFailed("Unable to retrieve apps from device");
+                listener.onTaskFailed("Unable to retrieve app's information.");
             }
         }
     }
@@ -109,7 +108,7 @@ public class DeviceAppRepository {
                 String.valueOf(deviceAppInfo.getTargetSDKVersion())
         };
 
-        List<DeviceAppProfile> appProfileList = new ArrayList<>();
+        List<DeviceAppProfile> appProfileList = new ArrayList<>(titles.length);
         for (int index = 0; index < titles.length; ++index) {
             DeviceAppProfile appProfile = new DeviceAppProfile(titles[index], descriptions[index]);
             appProfileList.add(appProfile);

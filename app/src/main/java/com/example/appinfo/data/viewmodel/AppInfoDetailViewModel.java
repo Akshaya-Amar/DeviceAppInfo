@@ -19,12 +19,14 @@ public class AppInfoDetailViewModel extends AndroidViewModel {
     private final Application application;
     private final MutableLiveData<List<DeviceAppProfile>> deviceAppProfile;
     private final MutableLiveData<ButtonType> buttonType;
+    private final MutableLiveData<Boolean> isDeviceAppProfileListRequested;
 
     public AppInfoDetailViewModel(@NonNull Application application) {
         super(application);
         this.application = application;
         deviceAppProfile = new MutableLiveData<>();
         buttonType = new MutableLiveData<>();
+        isDeviceAppProfileListRequested = new MutableLiveData<>(false);
     }
 
     public LiveData<List<DeviceAppProfile>> getDeviceAppProfile() {
@@ -35,9 +37,16 @@ public class AppInfoDetailViewModel extends AndroidViewModel {
         return buttonType;
     }
 
+    public LiveData<Boolean> getIsDeviceAppProfileListRequested() {
+        return isDeviceAppProfileListRequested;
+    }
+
     public void getDeviceAppProfileList(DeviceAppInfo deviceAppInfo) {
-        List<DeviceAppProfile> deviceAppProfiles = DeviceAppRepository.getInstance(application).getDeviceAppInfo(deviceAppInfo);
-        deviceAppProfile.setValue(deviceAppProfiles);
+        if (Boolean.FALSE.equals(getIsDeviceAppProfileListRequested().getValue())) {
+            List<DeviceAppProfile> deviceAppProfiles = DeviceAppRepository.getInstance(application).getDeviceAppInfo(deviceAppInfo);
+            deviceAppProfile.setValue(deviceAppProfiles);
+            isDeviceAppProfileListRequested.setValue(true);
+        }
     }
 
     public void onPlayStoreButtonClick() {

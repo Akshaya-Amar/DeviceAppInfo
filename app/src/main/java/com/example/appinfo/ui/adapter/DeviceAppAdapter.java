@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.appinfo.R;
 import com.example.appinfo.data.model.DeviceAppInfo;
 import com.example.appinfo.databinding.DeviceAppItemBinding;
 
@@ -26,7 +28,7 @@ public class DeviceAppAdapter extends RecyclerView.Adapter<DeviceAppAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        DeviceAppItemBinding binding = DeviceAppItemBinding.inflate(layoutInflater, parent, false);
+        DeviceAppItemBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.device_app_item, parent, false);
         return new ViewHolder(binding);
     }
 

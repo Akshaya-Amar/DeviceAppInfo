@@ -2,13 +2,13 @@ package com.example.appinfo.ui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appinfo.data.model.DeviceAppInfo;
+import com.example.appinfo.R;
 import com.example.appinfo.data.model.DeviceAppProfile;
 import com.example.appinfo.databinding.DeviceInfoItemListBinding;
 
@@ -27,7 +27,7 @@ public class DeviceAppDetailAdapter extends RecyclerView.Adapter<DeviceAppDetail
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        DeviceInfoItemListBinding binding = DeviceInfoItemListBinding.inflate(inflater, parent, false);
+        DeviceInfoItemListBinding binding = DataBindingUtil.inflate(inflater, R.layout.device_info_item_list, parent, false);
         return new ViewHolder(binding);
     }
 

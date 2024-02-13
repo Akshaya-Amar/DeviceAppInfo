@@ -17,7 +17,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.activity.AppInfoDetail">
+        tools:context=".ui.activity.AppInfoDetailActivity">
 
         <ImageView
             android:id="@+id/blur"
